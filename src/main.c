@@ -13,7 +13,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR lpCmdLine,
     MSG ter_m;
 
     ter_wc.style = CS_HREDRAW | CS_VREDRAW;
-    ter_wc.lpfnWndProc = DefWindowProc;
+    ter_wc.lpfnWndProc = TerminalWndProc;
     ter_wc.cbClsExtra = winc.cbWndExtra = 0;
     ter_wc.hInstance = hInstance;
     ter_wc.hIcon = LoadIcon(NULL , IDI_APPLICATION);
@@ -38,5 +38,17 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR lpCmdLine,
         exit(EXIT_FAILURE);
     }
 
-    return EXIT_SUCCESS;
+    while(GetMessage(&ter_m, NULL, 0, 0)){
+        DispatchMessage(&ter_m);
+    }
+    return ter_m.wParam;
+}
+
+LRESULT CALLBACK TerminalWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam){
+    switch(message){
+    case WM_DESTROY:
+        PostQuitMessage(0);
+        return 0;
+    }
+    return DefWindowProc(hwnd, message, wParam, lParam);
 }
