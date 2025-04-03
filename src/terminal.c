@@ -1,4 +1,4 @@
-#include "wnd/terminal.h"
+#include "terminal.h"
 
 #include <stdlib.h>
 #include <windows.h>
