@@ -3,8 +3,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "win/terminal.h"
 
-int main(void){
+char cmd[1024][100];
+int cmd_size = 0;
+
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR lpCmdLine, int nCmdShow){
     char cmd[0x100];   // 0x100 == 256
     cmd[0] = '\0';
     while(strcmp(cmd, "exit") == EXIT_SUCCESS)
