@@ -1,0 +1,4 @@
+#ifndef PUFFER_WND_TERMINAL_H
+#define PUFFER_WND_TERMINAL_H
+
+#endif
