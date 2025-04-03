@@ -3,44 +3,40 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "win/terminal.h"
 
 char cmd[1024][100];
 int cmd_size = 0;
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR lpCmdLine, int nCmdShow){
-    char cmd[0x100];   // 0x100 == 256
-    cmd[0] = '\0';
-    while(strcmp(cmd, "exit") == EXIT_SUCCESS)
-    {
-        printf(".: ");
-        for(int i = 0; cmd[i] == getchar(); i ++)
-        {
-            if(i >= 0xff && cmd[i] != '\n')
-            {
-                fputs("error: cmd is too long\n", stderr);
-                continue;
-            }
-            else if(cmd[i] == '\n')
-            {
-                cmd[i] = '\0';
-                break;
-            }
-        }
+    WNDCLASS ter_wc;
+    HWND ter_hw;
+    MSG ter_m;
 
-        if(strcmp(cmd, "clear") == EXIT_SUCCESS)
-        {
-            printf("\033[H\033[J");
-        }
-        else if(strcmp(cmd, "version") == EXIT_SUCCESS)
-        {
-            printf("puffer version: 1");
-        }
-        else
-        {
-            fputs("error: no find cmd\n", stderr);
-            continue;
-        }
+    ter_wc.style = CS_HREDRAW | CS_VREDRAW;
+    ter_wc.lpfnWndProc = DefWindowProc;
+    ter_wc.cbClsExtra = winc.cbWndExtra = 0;
+    ter_wc.hInstance = hInstance;
+    ter_wc.hIcon = LoadIcon(NULL , IDI_APPLICATION);
+    ter_wc.hCursor = LoadCursor(NULL , IDC_ARROW);
+    ter_wc.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
+    ter_wc.lpszMenuName = NULL;
+    ter_wc.lpszClassName = TEXT("TERMINAL");
+    if(!RegisterClass(&ter_wc)){
+        MessageBox(NULL, "error", "cannot exe RegisterClass(&ter_wc)", MB_OK);
+        exit(EXIT_FAILURE);
     }
+
+    ter_hw = CreateWindow(
+        TEXT("TERMINAL"),
+        TEXT("TERMINAL HWND"),
+        WS_OVERLAPPEDWINDOW | WS_VSCROLL,
+        CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
+        NULL, NULL, hInstance, NULL
+    );
+    if (!ter_hw){
+        MessageBox(NULL, "error", "cannot exe CreateWindow(...)", MB_OK);
+        exit(EXIT_FAILURE);
+    }
+
     return EXIT_SUCCESS;
 }
