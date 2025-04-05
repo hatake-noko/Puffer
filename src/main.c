@@ -6,11 +6,14 @@
 
 char cmd[1024][100];
 int cmd_size = 0;
+char select[100];
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR lpCmdLine, int nCmdShow){
     WNDCLASS ter_wc;
     HWND ter_hw;
     MSG ter_m;
+
+    strcpy(select, "puffer: ");
 
     ter_wc.style = CS_HREDRAW | CS_VREDRAW;
     ter_wc.lpfnWndProc = TerminalWndProc;
@@ -45,9 +48,24 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR lpCmdLine,
 }
 
 LRESULT CALLBACK TerminalWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam){
+    HDC hdc;
+    PAINTSTRUCT ps;
+    TEXTMETRIC tm;
+    char paint_cmd[1024];
+
     switch(message){
     case WM_DESTROY:
         PostQuitMessage(0);
+        return 0;
+    case WM_PAINT:
+        hdc = BeginPaint(hwnd, &ps);
+        GetTextMetrics(hdc, &tm);
+        for(int i = 0; i < cmd_size; i ++){
+            strcpy(paint_cmd, select);
+            strcat(paint_cmd, cmd[i]);
+            TextOut(hdc, 10, 10 + tm.tmHeight * i, TEXT(paint_cmd), lstrlen(TEXT(paint_cmd)));
+        }
+        EndPaint(hwnd, &ps);
         return 0;
     }
     return DefWindowProc(hwnd, message, wParam, lParam);
