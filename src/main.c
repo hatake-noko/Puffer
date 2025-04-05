@@ -4,69 +4,82 @@
 #include <stdlib.h>
 #include <string.h>
 
-char cmd[1024][100];
-int cmd_size = 0;
-char select[100];
+char cmd[100][1024];
+int cmdSize = 0;
+char select[10][100];
+int selectSize = 0;
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR lpCmdLine, int nCmdShow){
-    WNDCLASS ter_wc;
-    HWND ter_hw;
-    MSG ter_m;
+    WNDCLASS terWC;
+    HWND terHW;
+    MSG terM;
 
-    strcpy(select, "puffer: ");
+    strcpy(select[selectSize], "puffer");
+    selectSize ++;
 
-    ter_wc.style = CS_HREDRAW | CS_VREDRAW;
-    ter_wc.lpfnWndProc = TerminalWndProc;
-    ter_wc.cbClsExtra = winc.cbWndExtra = 0;
-    ter_wc.hInstance = hInstance;
-    ter_wc.hIcon = LoadIcon(NULL , IDI_APPLICATION);
-    ter_wc.hCursor = LoadCursor(NULL , IDC_ARROW);
-    ter_wc.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
-    ter_wc.lpszMenuName = NULL;
-    ter_wc.lpszClassName = TEXT("TERMINAL");
-    if(!RegisterClass(&ter_wc)){
-        MessageBox(NULL, "error", "cannot exe RegisterClass(&ter_wc)", MB_OK);
+    terWC.style = CS_HREDRAW | CS_VREDRAW;
+    terWC.lpfnWndProc = TerminalWndProc;
+    terWC.cbClsExtra = winc.cbWndExtra = 0;
+    terWC.hInstance = hInstance;
+    terWC.hIcon = LoadIcon(NULL , IDI_APPLICATION);
+    terWC.hCursor = LoadCursor(NULL , IDC_ARROW);
+    terWC.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
+    terWC.lpszMenuName = NULL;
+    terWC.lpszClassName = TEXT("TERMINAL");
+    if(!RegisterClass(&terWC)){
+        MessageBox(NULL, "error", "cannot exe RegisterClass(&terWC)", MB_OK);
         exit(EXIT_FAILURE);
     }
 
-    ter_hw = CreateWindow(
+    terHW = CreateWindow(
         TEXT("TERMINAL"),
         TEXT("TERMINAL HWND"),
         WS_OVERLAPPEDWINDOW | WS_VSCROLL,
         CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
         NULL, NULL, hInstance, NULL
     );
-    if (!ter_hw){
+    if (!terHW){
         MessageBox(NULL, "error", "cannot exe CreateWindow(...)", MB_OK);
         exit(EXIT_FAILURE);
     }
 
-    while(GetMessage(&ter_m, NULL, 0, 0)){
-        DispatchMessage(&ter_m);
+    while(GetMessage(&terM, NULL, 0, 0)){
+        DispatchMessage(&terM);
     }
-    return ter_m.wParam;
+    return terM.wParam;
 }
 
-LRESULT CALLBACK TerminalWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam){
+LRESULT CALLBACK TerminalWndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam){
     HDC hdc;
     PAINTSTRUCT ps;
     TEXTMETRIC tm;
-    char paint_cmd[1024];
 
-    switch(message){
+    switch(msg){
     case WM_DESTROY:
         PostQuitMessage(0);
         return 0;
     case WM_PAINT:
-        hdc = BeginPaint(hwnd, &ps);
+        hdc = BeginPaint(hWnd, &ps);
         GetTextMetrics(hdc, &tm);
-        for(int i = 0; i < cmd_size; i ++){
-            strcpy(paint_cmd, select);
-            strcat(paint_cmd, cmd[i]);
-            TextOut(hdc, 10, 10 + tm.tmHeight * i, TEXT(paint_cmd), lstrlen(TEXT(paint_cmd)));
+        for(int i = 0; i < cmdSize; i ++){
+            int x = 0;
+            for(int j = 0; j < selectSize; j ++){
+                for(int k = 0; k < strlen(select[j]); k ++){
+                    x ++;
+                    TextOut(hdc, 10 + tm.tmMaxCharWidth * x, 10 + tm.tmHeight * i, TEXT(select[j][k]), lstrlen(TEXT(select[j][k])));
+                }
+                for(int k = 0; k < 2; k ++){
+                    x ++;
+                    TextOut(hdc, 10 + tm.tmMaxCharWidth * x, 10 + tm.tmHeight * i, TEXT(": "[k]), lstrlen(TEXT(": "[k])));
+                }
+            }
+            for(int j = 0; j < strlen(cmd[i]); j ++){
+                x ++;
+                TextOut(hdc, 10 + tm.tmMaxCharWidth * x, 10 + tm.tmHeight * i, TEXT(cmd[i][j]), lstrlen(TEXT(cmd[i][j])));
+            }
         }
-        EndPaint(hwnd, &ps);
+        EndPaint(hWnd, &ps);
         return 0;
     }
-    return DefWindowProc(hwnd, message, wParam, lParam);
+    return DefWindowProc(hWnd, msg, wParam, lParam);
 }
