@@ -15,17 +15,18 @@ int main(void){
     strcpy(select[0], "puffer");
     select_size = 1;
 
+    printf("? select puffer");
+
     while(1){
-        for(int i = 0; i < cmd_size; i ++){
-            for(int j = 0; j < select_size; j ++){
-                printf("%s: ", select[j]);
-            }
-            printf("%s\n", cmd[i]);
+        for(int j = 0; j < select_size; j ++){
+            printf("%s:", select[j]);
         }
+        printf(" ? ");
         for(int i = 0; 1; i ++){
             int c = getchar();
             if(c == EOF){
-                fputs("入力中にエラーが発生した可能性があります\n", stderr);
+                fputs("an error may have occurred while entering\n", stderr);
+                return 1;
             }else if(c == '\n'){
                 cmd[cmd_size][i] = '\0';
                 break;
@@ -38,7 +39,7 @@ int main(void){
         if(strcmp(cmd[cmd_size - 1], "unselect")){
             break;
         }else if(strcmp(cmd[cmd_size - 1], "version")){
-            printf("version: 1.0");
+            printf("compatible version: 1 0\n");
         }
     }
 
