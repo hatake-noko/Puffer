@@ -9,4 +9,6 @@ typedef struct tag_info_t{
     char author[256];
 }info_t;
 
+void init_info(info_t info);
+
 #endif
