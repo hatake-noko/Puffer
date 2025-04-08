@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "puffer.h"
+#include "token.h"
 
 char msg[100][1024];
 int msg_size;
@@ -12,6 +13,7 @@ int select_size;
 
 int main(void){
     puffer_t puffer;
+    char token[256];
 
     strcpy(msg[0], "select puffer");
     msg_size = 1;
@@ -39,19 +41,23 @@ int main(void){
         }
         msg_size ++;
 
-        if(strcmp(msg[msg_size - 1], "unselect") == 0){
+        get_token(msg[msg_size - 1], token, 256, 1);
+        if(strcmp(token, "unselect") == 0){
             if(select_size <= 1){
                 break;
             }else{
                 select[select_size - 1][0] = '\0';
                 select_size --;
             }
-        }else if(strcmp(msg[msg_size - 1], "version") == 0){
-            printf("compatible version: 1 0\n");
-        }else if(strcmp(msg[msg_size - 1], "select untitled") == 0 && select_size == 1){
-            init_puffer(&puffer);
-            strcpy(select[select_size], "untitled");
-            select_size ++;
+        }else if(strcmp(token, "version") == 0){
+            printf("compatible version: 1\n");
+        }else if(strcmp(token, "select") == 0){
+            get_token(msg[msg_size - 1], token, 256, 2);
+            if(strcmp(token, "untitled") == 0 && select_size == 1){
+                init_puffer(&puffer);
+                strcpy(select[select_size], "untitled");
+                select_size ++;
+            }
         }
     }
 
