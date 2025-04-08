@@ -15,7 +15,7 @@ int main(void){
     strcpy(select[0], "puffer");
     select_size = 1;
 
-    printf("? select puffer");
+    printf("? select puffer\n");
 
     while(1){
         for(int j = 0; j < select_size; j ++){
@@ -36,12 +36,12 @@ int main(void){
         }
         msg_size ++;
 
-        if(strcmp(msg[msg_size - 1], "unselect")){
+        if(strcmp(msg[msg_size - 1], "unselect") == 0){
             break;
-        }else if(strcmp(msg[msg_size - 1], "version")){
+        }else if(strcmp(msg[msg_size - 1], "version") == 0){
             printf("compatible version: 1 0\n");
         }
     }
 
-    return 0;
+    return EXIT_SUCCESS;
 }
