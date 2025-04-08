@@ -53,11 +53,23 @@ int main(void){
             printf("compatible version: 1\n");
         }else if(strcmp(token, "select") == 0){
             get_token(msg[msg_size - 1], token, 256, 2);
-            if(strcmp(token, "untitled") == 0 && select_size == 1){
-                init_puffer(&puffer);
-                strcpy(select[select_size], "untitled");
-                select_size ++;
+            switch(select_size){
+            case 1:
+                if(strcmp(token, "untitled") == 0){
+                    init_puffer(&puffer);
+                    strcpy(select[select_size], "untitled");
+                    select_size ++;
+                }
+                break;
+            case 2:
+                if(strcmp(token, "info") == 0 || strcmp(token, "information") == 0){
+                    strcpy(select[select_size], "info");
+                    select_size ++;
+                }
+                break;
             }
+        }else if(strcmp(token, "content") == 0 && select_size == 3 && strcmp(select[2], "info") == 0){
+            print_info(&(puffer.info));
         }
     }
 
