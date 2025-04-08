@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "puffer.h"
 
 char msg[100][1024];
 int msg_size;
@@ -10,6 +11,8 @@ char select[10][100];
 int select_size;
 
 int main(void){
+    puffer_t puffer;
+
     strcpy(msg[0], "select puffer");
     msg_size = 1;
     strcpy(select[0], "puffer");
@@ -37,9 +40,18 @@ int main(void){
         msg_size ++;
 
         if(strcmp(msg[msg_size - 1], "unselect") == 0){
-            break;
+            if(select_size <= 1){
+                break;
+            }else{
+                select[select_size - 1][0] = '\0';
+                select_size --;
+            }
         }else if(strcmp(msg[msg_size - 1], "version") == 0){
             printf("compatible version: 1 0\n");
+        }else if(strcmp(msg[msg_size - 1], "select untitled") == 0 && select_size == 1){
+            init_puffer(&puffer);
+            strcpy(select[select_size], "untitled");
+            select_size ++;
         }
     }
 
