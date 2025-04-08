@@ -3,6 +3,41 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+void change_esc(char *ret, const char *base){
+    for(int i = 0, j = 0; (ret[j] = base[i]) != '\0'; i ++, j ++){
+        if(base[i ++] == '\\'){
+            switch(base[i]){
+            case '\0':
+                ret[j] = '\\';
+                ret[j + 1] = '\0';
+                return;
+                break;
+            case 'n':
+                ret[j] = '\n';
+                break;
+            case 'r':
+                ret[j] = '\r';
+                break;
+            case 's':
+                ret[j] = ' ';
+                break;
+            case 't':
+                ret[j] = '\t';
+                break;
+            case 'v':
+                ret[j] = '\v';
+                break;
+            case '\\':
+                ret[j] = '\\';
+                break;
+            default:
+                ret[j] = base[i];
+                break;
+            }
+        }
+    }
+}
+
 void get_token(const char *base, char *token, int token_size, int nth){
     if(token_size < 2){
         fputs("sys error: token size is too small\n", stderr);
