@@ -11,5 +11,6 @@ typedef struct tag_info_t{
 }info_t;
 
 void init_info(info_t *info);
+void print_info(const info_t *info);
 
 #endif
