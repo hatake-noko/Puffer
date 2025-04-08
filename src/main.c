@@ -4,14 +4,14 @@
 #include <stdlib.h>
 #include <string.h>
 
-char cmd[100][1024];
-int cmd_size;
+char msg[100][1024];
+int msg_size;
 char select[10][100];
 int select_size;
 
 int main(void){
-    strcpy(cmd[0], "select puffer");
-    cmd_size = 1;
+    strcpy(msg[0], "select puffer");
+    msg_size = 1;
     strcpy(select[0], "puffer");
     select_size = 1;
 
@@ -28,17 +28,17 @@ int main(void){
                 fputs("an error may have occurred while entering\n", stderr);
                 return 1;
             }else if(c == '\n'){
-                cmd[cmd_size][i] = '\0';
+                msg[msg_size][i] = '\0';
                 break;
             }else{
-                cmd[cmd_size][i] = (char)c;
+                msg[msg_size][i] = (char)c;
             }
         }
-        cmd_size ++;
+        msg_size ++;
 
-        if(strcmp(cmd[cmd_size - 1], "unselect")){
+        if(strcmp(msg[msg_size - 1], "unselect")){
             break;
-        }else if(strcmp(cmd[cmd_size - 1], "version")){
+        }else if(strcmp(msg[msg_size - 1], "version")){
             printf("compatible version: 1 0\n");
         }
     }
