@@ -5,6 +5,7 @@
 
 typedef struct tag_info_t{
     proc_t tag;
+    int version;
     char title[256];
     char author[256];
 }info_t;
