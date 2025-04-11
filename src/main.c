@@ -38,4 +38,26 @@ int WINAPI WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,LPSTR lpCmdLine,i
     if(clean_hw==NULL){
         return EXIT_FAILURE;
     }
+
+    ShowWindow(clean_hw,SW_SHOW);
+
+    while(GetMessage(&clean_m,NULL,0,0)){
+        DispatchMessage(&clean_m);
+    }
+
+    return clean_m.wParam;
+}
+
+LRESULT CALLBACK CleanMsg(HWND h,UINT m,WPARAM w,LPARAM l){
+    HDC hdc;
+    PAINTSTRUCT ps;
+
+    switch(m){
+    case WM_DESTROY:
+        PostQuitMessage(0);
+        return 0;
+    default:
+        return DefWindowProc(h,m,w,l);
+    }
+    return 0;
 }
