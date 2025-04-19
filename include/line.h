@@ -13,4 +13,10 @@ typedef struct tag_vert_line_s{
     num_l a;
 }vert_line_s;
 
+typedef struct tag_linear_func_s{
+ /* y = ax + b */
+    num_l a;
+    num_l b;
+}linear_func_s;
+
 #endif
