@@ -8,4 +8,9 @@ typedef struct tag_hor_line_s{
     num_l a;
 }hor_line_s;
 
+typedef struct tag_vert_line_s{
+ /* x = a */
+    num_l a;
+}vert_line_s;
+
 #endif
