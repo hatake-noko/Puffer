@@ -11,4 +11,6 @@ typedef struct tag_set_info_s{
     str_l title;
 }set_info_s;
 
+void init_set_info(set_info_s *set_info);
+
 #endif
