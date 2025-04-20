@@ -25,4 +25,15 @@ typedef enum tag_line_type_e{
     LINEAR_FUNC_TYPE,
 }line_type_e;
 
+typedef struct tag_line_s{
+    num_l x_mini;
+    num_l y_max;
+    line_type_e type;
+    union{
+        hor_line_s hor_line;
+        vert_line_s vert_line;
+        linear_func_s linear_func;
+    }content;
+}line_s;
+
 #endif
