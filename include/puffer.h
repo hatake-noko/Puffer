@@ -12,4 +12,6 @@ typedef struct tag_puffer_s{
     set_page_s *page;
 }puffer_s;
 
+void init_puffer(puffer_s puffer);
+
 #endif
