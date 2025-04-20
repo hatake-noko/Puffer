@@ -19,4 +19,10 @@ typedef struct tag_linear_func_s{
     num_l b;
 }linear_func_s;
 
+typedef enum tag_line_type_e{
+    HOR_LINE_TYPE,
+    VERT_LINE_TYPE,
+    LINEAR_FUNC_TYPE,
+}line_type_e;
+
 #endif
