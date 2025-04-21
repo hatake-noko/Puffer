@@ -29,3 +29,14 @@ void read_num(num_l *num, FILE *file){
     }
     return;
 }
+
+void read_str(str_l str, FILE *file){
+    for(int i = 0; i < 1023; i ++){
+        fread(str, sizeof(str[i]), 1, file);
+        if(str[i] == '\0'){
+            break;
+        }
+    }
+    str[1023] = '\0';
+    return;
+}
