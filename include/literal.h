@@ -11,5 +11,6 @@ typedef uint16_t color_l;
 typedef uint64_t pos_l;
 
 void read_byte(byte_l *byte, FILE *file);
+void read_num(num_l *num, FILE *file);
 
 #endif
