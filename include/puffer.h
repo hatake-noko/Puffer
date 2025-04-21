@@ -13,5 +13,6 @@ typedef struct tag_puffer_s{
 }puffer_s;
 
 void init_puffer(puffer_s *puffer);
+void free_puffer(puffer_s *puffer);
 
 #endif
