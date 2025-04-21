@@ -12,5 +12,6 @@ typedef uint64_t pos_l;
 
 void read_byte(byte_l *byte, FILE *file);
 void read_num(num_l *num, FILE *file);
+void read_str(str_l str, FILE *file);
 
 #endif
