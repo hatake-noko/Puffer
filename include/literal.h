@@ -14,5 +14,6 @@ void read_byte(byte_l *byte, FILE *file);
 void read_num(num_l *num, FILE *file);
 void read_str(str_l str, FILE *file);
 void read_color(color_l *color, FILE *file);
+void read_pos(pos_l *pos, FILE *file);
 
 #endif
