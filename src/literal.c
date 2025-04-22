@@ -80,3 +80,14 @@ void read_color(color_l *color, FILE *file){
     }
     return;
 }
+
+void read_pos(pos_l *pos, FILE *file){
+    num_l num;
+
+    pos = 0x00'00'00'00'00'00'00'00;
+    read_num(&num, file);
+    pos += num * 0x00'00'00'00;
+    read_num(&num, file);
+    pos += num;
+    return;
+}
