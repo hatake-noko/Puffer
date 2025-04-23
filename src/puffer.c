@@ -51,14 +51,14 @@ void read_puffer(puffer_s *puffer){
          // set page
         case 0x00:
             read_num(&(puffer->page_size), pfr_file);
-            puffer->page = malloc(sizeof(set_page_s) * (puffer->page_size / 0x100'00));
+            puffer->page = malloc(sizeof(set_page_s) * (puffer->page_size / 0x10000));
             for(int i = 0; i < puffer->page_size; i ++){
                 read_num(&(puffer->page[i].obj_size), pfr_file);
-                puffer->page[i].obj = malloc(sizeof(obj_s) * (puffer->page[i].obj_size / 0x100'00));
+                puffer->page[i].obj = malloc(sizeof(obj_s) * (puffer->page[i].obj_size / 0x10000));
                 for(int j = 0; j < puffer->page[i].obj_size; j ++){
                     read_str(puffer->page[i].obj[j].name, pfr_file);
                     while(1){
-                    read_byte(ope, pfr_file);
+                    read_byte(&ope, pfr_file);
                         switch(ope){
                         case 0x00:
                             goto set_page_obj_line;
@@ -69,9 +69,9 @@ void read_puffer(puffer_s *puffer){
                     }
 set_page_obj_line:
                     read_num(&(puffer->page[i].obj[j].line_size), pfr_file);
-                    puffer->page[i].obj[j].line = malloc(sizeof(line_s) * (puffer->page[i].obj[j].line_size / 0x100'00));
+                    puffer->page[i].obj[j].line = malloc(sizeof(line_s) * (puffer->page[i].obj[j].line_size / 0x10000));
                     for(int k = 0; k < puffer->page[i].obj[j].line_size; k ++){
-                        read_byte(ope, pfr_file);
+                        read_byte(&ope, pfr_file);
                         switch(ope){
                         case 0x00:
                             puffer->page[i].obj[j].line[k].type = HOR_LINE_TYPE;
@@ -79,7 +79,7 @@ set_page_obj_line:
                             break;
                         case 0x01:
                             puffer->page[i].obj[j].line[k].type = VERT_LINE_TYPE;
-                            read_num(&(puffer->page[i].obj[j].line[k].content.ver_line.a), pfr_file);
+                            read_num(&(puffer->page[i].obj[j].line[k].content.vert_line.a), pfr_file);
                             break;
                         case 0x02:
                             puffer->page[i].obj[j].line[k].type = LINEAR_FUNC_TYPE;
@@ -94,7 +94,7 @@ set_page_obj_line:
          // set info
         case 0x01:
             while(1){
-                read_byte(ope, pfr_file);
+                read_byte(&ope, pfr_file);
                 switch(ope){
                 case 0x00:
                     goto fin_set;
@@ -102,16 +102,17 @@ set_page_obj_line:
                     read_num(&(puffer->info.ver), pfr_file);
                     break;
                 case 0x02:
-                    read_str(&(puffer->info.author), pfr_file);
+                    read_str(puffer->info.author, pfr_file);
                     break;
                 case 0x03:
-                    read_str(&(puffer->info.title), pfr_file);
+                    read_str(puffer->info.title, pfr_file);
                     break;
                 }
             }
             break;
         }
 fin_set:
+        ;
     }
 
 close_file:
