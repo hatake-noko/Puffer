@@ -1,0 +1,8 @@
+z:\gcc -c -I include src\literal.c -o build\literal.o
+z:\gcc -c -I include src\main.c -o build\main.o
+z:\gcc -c -I include src\puffer.c -o build\puffer.o
+z:\gcc -c -I include src\set_info.c -o build\set_info.o
+z:\gcc -c -I include src\set_page.c -o build\set_page.o
+z:\gcc -c -I include src\set.c -o build\set.o
+z:\gcc -c -I include src\token.c -o build\token.o
+z:\gcc build\literal.o build\main.o build\puffer.o build\set_info.o build\set_page.o build\set.o build\token.o -o bin\clean.exe
