@@ -7,7 +7,7 @@
 int get_nth_token(char *token, char *base, int nth){
     int base_i = 0;
     int token_i = 0;
-    for( ; ; i ++){
+    for( ; ; base_i ++){
         if(is_whitespace(base[base_i])){
             ;
         }else if(base[base_i] == '\0'){
