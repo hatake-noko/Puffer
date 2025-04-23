@@ -16,7 +16,7 @@ int main(void){
 
     while(1){
         for(int i = 0; i < select_size; i ++){
-            printf("%s:", select[select_size]);
+            printf("%s:", select[i]);
         }
         printf(" ? ");
         gets(cmd);
@@ -25,7 +25,7 @@ int main(void){
             continue;
         }
         switch(select_size){
-        case 0:
+        case 1:
             if(strcmp(token, "ver") == 0){
                 puts("compatible version: 1");
             }else if(strcmp(token, "unselect") == 0){
@@ -36,7 +36,7 @@ int main(void){
             break;
         default:
 no_find:
-            printf("error: no find the cmd `%s\'", cmd);
+            printf("error: no find the cmd `%s\'\n", cmd);
             break;
         }
     }
