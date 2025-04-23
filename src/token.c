@@ -21,6 +21,7 @@ int get_nth_token(char *token, char *base, int nth){
         if(nth == 0){
 fill_token:
             if(is_whitespace(base[base_i]) || base[base_i] == '\0'){
+                token[token_i] = '\0';
                 return EXIT_SUCCESS;
             }else{
                 token[token_i] = base[base_i];
