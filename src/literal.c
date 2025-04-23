@@ -13,7 +13,7 @@ void read_num(num_l *num, FILE *file){
     num_l digit;
 
     fread(&size, sizeof(size), 1, file);
-    digit = 0x100'00;
+    digit = 0x10000;
     for(int i = 1; i < size / 0x10 || i < 2; i ++){
         digit *= 0x100;
     }
@@ -32,7 +32,7 @@ void read_num(num_l *num, FILE *file){
 
 void read_str(str_l str, FILE *file){
     for(int i = 0; i < 1023; i ++){
-        fread(str, sizeof(str[i]), 1, file);
+        fread(&str[i], sizeof(str[i]), 1, file);
         if(str[i] == '\0'){
             break;
         }
@@ -46,14 +46,14 @@ void read_color(color_l *color, FILE *file){
     byte_l byte;
 
     fread(&mode, sizeof(mode), 1, file);
-    *color = 0x00'00'00'00;
+    *color = 0x00000000;
     switch(mode){
     case 0x00:
         fread(&byte, sizeof(byte), 1, file);
-        *color += byte * 0x100'00'00;
+        *color += byte * 0x1000000;
     case 0x01:
         fread(&byte, sizeof(byte), 1, file);
-        *color += byte * 0x100'00;
+        *color += byte * 0x10000;
         fread(&byte, sizeof(byte), 1, file);
         *color += byte * 0x100;
         fread(&byte, sizeof(byte), 1, file);
@@ -84,10 +84,10 @@ void read_color(color_l *color, FILE *file){
 void read_pos(pos_l *pos, FILE *file){
     num_l num;
 
-    pos = 0x00'00'00'00'00'00'00'00;
+    *pos = 0x0000000000000000;
     read_num(&num, file);
-    pos += num * 0x00'00'00'00;
+    *pos += num * 0x100000000;
     read_num(&num, file);
-    pos += num;
+    *pos += num;
     return;
 }
