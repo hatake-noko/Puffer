@@ -3,9 +3,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "puffer.h"
+#include "setting.h"
 #include "token.h"
 
 int main(void){
+    puffer_s puffer;
     char cmd[1024];
     char select[10][255];
     int select_size;
@@ -30,6 +33,28 @@ int main(void){
                 puts("compatible version: 1");
             }else if(strcmp(token, "unselect") == 0){
                 return 0;
+            }else if(strcmp(token, "select") == 0){
+                if(get_nth_token(token, cmd, 2) == EXIT_SUCCESS){
+                    strcpy(puffer.path, token);
+                    for(int i = strlen(puffer.path) - 1; i >= 0; i --){
+                        if(puffer.path[i] == PATH_DELIMITER){
+                            for(int j = i + 1; j < strlen(puffer.path); j ++){
+                                if(puffer.path[j] == '.'){
+                                    break;
+                                }
+                                select[1][j - i - 1] = puffer.path[j];
+                            }
+                            goto fin_set_2nd_select;
+                        }
+                    }
+fin_set_2nd_select:
+                    read_puffer(&puffer);
+                }else{
+                    puffer.path[0] = '\0';
+                    strcpy(select[1], "untitled");
+                    init_puffer(&puffer);
+                }
+                select_size ++;
             }else{
                 goto no_find;
             }
