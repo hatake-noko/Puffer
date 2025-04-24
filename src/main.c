@@ -80,6 +80,13 @@ fin_set_2nd_select:
                 goto no_find;
             }
             break;
+        case 3:
+            if(strcmp(token, "unselect") == 0){
+                select_size --;
+            }else{
+                goto no_find;
+            }
+            break;
         default:
 no_find:
             printf("error: no find the cmd `%s\'\n", cmd);
