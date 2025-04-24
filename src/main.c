@@ -63,6 +63,21 @@ fin_set_2nd_select:
             if(strcmp(token, "unselect") == 0){
                 free_puffer(&puffer);
                 select_size --;
+            }else if(strcmp(token, "select") == 0){
+                if(get_nth_token(token, cmd, 2) == EXIT_FAILURE){
+                    printf("error: no write set\n");
+                    break;
+                }else if(strcmp(token, "info") == 0 || strcmp(token, "information") == 0){
+                    strcpy(select[2], "info");
+                }else if(strcmp(token, "page") == 0){
+                    strcpy(select[2], "page");
+                }else{
+                    printf("error: no find set\n");
+                    break;
+                }
+                select_size ++;
+            }else{
+                goto no_find;
             }
             break;
         default:
