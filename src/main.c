@@ -83,6 +83,10 @@ fin_set_2nd_select:
         case 3:
             if(strcmp(token, "unselect") == 0){
                 select_size --;
+            }else if(strcmp(select[2], "info") == 0){
+                if(strcmp(token, "ver") == 0 || strcmp(token, "version") == 0){
+                    printf("version: %d", puffer.info.ver / 0x10000);
+                }
             }else{
                 goto no_find;
             }
