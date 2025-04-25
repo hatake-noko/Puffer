@@ -47,7 +47,7 @@ int main(void){
                             goto fin_set_2nd_select;
                         }
                     }
-fin_set_2nd_select:
+fin_set_1st_select:
                     read_puffer(&puffer);
                 }else{
                     puffer.path[0] = '\0';
@@ -76,6 +76,24 @@ fin_set_2nd_select:
                     break;
                 }
                 select_size ++;
+            }else if(strcmp(token, "path") == 0){
+                if(get_nth_token(token, cmd, 2) == EXIT_FAILURE){
+                    printf("path: `%s\'\n", puffer.path);
+                }else{
+                    strcpy(puffer.path, token);
+                    for(int i = strlen(puffer.path) - 1; i >= 0; i --){
+                        if(puffer.path[i] == PATH_DELIMITER){
+                            for(int j = i + 1; j < strlen(puffer.path); j ++){
+                                if(puffer.path[j] == '.'){
+                                    break;
+                                }
+                                select[1][j - i - 1] = puffer.path[j];
+                            }
+                            goto fin_set_path;
+                        }
+                    }
+                }
+fin_set_path:
             }else{
                 goto no_find;
             }
