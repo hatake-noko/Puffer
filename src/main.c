@@ -103,7 +103,16 @@ fin_set_path:
                 select_size --;
             }else if(strcmp(select[2], "info") == 0){
                 if(strcmp(token, "ver") == 0 || strcmp(token, "version") == 0){
-                    printf("version: %d", puffer.info.ver / 0x10000);
+                    if(get_nth_token(token, cmd, 2) == EXIT_FAILURE){
+                        printf("version: %d", puffer.info.ver / 0x10000);
+                    }else{
+                        puffer.info.ver = atoi(token) * 0x10000;
+                        if(puffer.info.ver <= 0){
+                            printf("error: miss version\n");
+                        }else if(puffer.info.ver != 0x10000){
+                            printf("error: no find version\n");
+                        }
+                    }
                 }
             }else{
                 goto no_find;
