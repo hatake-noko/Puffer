@@ -8,7 +8,7 @@ typedef struct tag_num1_l{
     uint8_t content;
 }num1_l;
 typedef struct tag_num4_l{
-    uint8_t content;
+    uint32_t content;
 }num4_l;
 typedef struct tag_str1024_l{
     uint8_t content[1024];
@@ -19,7 +19,10 @@ typedef struct tag_color_l{
     uint8_t blue;
     uint8_t transparent;
 }color_l;
-typedef uint64_t pos_l;
+typedef struct tag_pos_l{
+    uint32_t x;
+    uint32_t y;
+}pos_l;
 
 void read_num1(num1_l *num1, FILE *file);
 void read_num4(num4_l *num4, FILE *file);
